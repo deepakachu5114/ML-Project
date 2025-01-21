@@ -1,0 +1,50 @@
+1.
+prompt = {
+            "task": "stress_detection_optimization",
+            "model_type": model_name,
+            "dataset_details":{
+                "train":{ "stress": 1488,
+                          "no stress": 1350
+                },
+                "test":{
+                    "stress": 369,
+                    "no stress": 346
+                }
+            },
+            "current_state": {
+                "performance_metrics": analysis["performance_metrics"],
+                "analysis": {
+                    "feature_importance": analysis["shap_patterns"]["feature_importance_ranking"],
+                    "shap_value_distribution": analysis["shap_patterns"]["shap_value_distribution"],
+                    #"feature_interactions": analysis["feature_interactions"]["feature_interactions"],
+                    "class_specific_feature_analysis": analysis["class_specific_feature_analysis"],
+                    "shap_variability": analysis["shap_variability"]["shap_variability"],
+                    "error_analysis": analysis["error_analysis"],
+                    "prediction_distribution": analysis["prediction_distribution"],
+                    "hyperparameter_insights": analysis["hyperparameter_insights"],
+                },
+            },
+            "optimization_request": """Based on this analysis, please suggest:
+            1. Which hyperparameters should be adjusted and why
+            2. The recommended direction of adjustment (increase/decrease)
+            3. The reasoning behind each suggestion based on the SHAP analysis, feature interactions, variability, and error patterns.
+
+            Please format your response as specific, actionable recommendations with numerical ranges where possible.
+            Prioritize improvements in stress detection accuracy while maintaining interpretability and minimizing false negatives.""",
+            "Output Format": """A JSON file containing suggested values of all hyperparameters in the hyperparameter insights section for each model with justification
+                                Example:
+                                {
+                                Model1: {
+                                            {
+                                            hyperparam1: value1,
+                                            Reason based on performance metrics and error analysis: justification1a,
+                                            Reason based on prediction confidence and prediction distribution: justification1b,
+                                            Reason based on feature importance, shap distribution and variability: justification1c
+                                            }
+                                            {
+                                            hyperparam2: value2,
+                                            Reason based on performance metrics and error analysis: justification2a,
+                                            Reason based on prediction confidence and prediction distribution: justification2b,
+                                            Reason based on feature importance, shap distribution and variability: justification2c
+                                        }
+                                }"""
